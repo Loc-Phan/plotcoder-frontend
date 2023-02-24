@@ -13,17 +13,17 @@ const Home = () => {
 	const [prediction, setPrediction] = useState("");
 	const [loading, setLoading] = useState(false);
 	const handleSubmit = async () => {
-		if (nl === "" || code === "") {
+		if (code === "") {
 			messageApi.open({
 				type: "warning",
-				content: "Please enter natural language and local code context",
+				content: "Please enter local code context",
 			});
 			return;
 		}
 		const data = {
 			natural_language: nl,
 			local_code_context: code,
-			// dataframe_schema: dataframe,
+			dataframe_schema: dataframe,
 		};
 		setLoading(true);
 		try {
@@ -36,10 +36,11 @@ const Home = () => {
 			} else {
 				setPrediction("");
 			}
-			setLoading(false);
 		} catch (error) {
-			message.warning("Something error!");
+			setPrediction("");
+			message.warning("Please add your local code context");
 		}
+		setLoading(false);
 	};
 	return (
 		<div className="home-wrapper">
@@ -99,7 +100,7 @@ const Home = () => {
 						</div>
 					</div>
 					<div className="natural-language-input-wrapper">
-						<div className="natural-language-input-label">Dataframe Schema</div>
+						<div className="natural-language-input-label">Dataframe schema</div>
 						<div className="data-frame-input" data-color-mode="dark">
 							<CodeEditor
 								value={dataframe}
